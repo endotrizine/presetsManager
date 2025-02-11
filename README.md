@@ -1,4 +1,4 @@
-# HyDE Preset Manager
+# Environment Preset Manager
 
 Менеджер пресетов рабочего окружения
 
