@@ -6,7 +6,7 @@ import (
 )
 
 func main() {
-	err := tui.StartThemes()
+	err := tui.Start()
 	if err != nil {
 		log.Fatal(err)
 	}

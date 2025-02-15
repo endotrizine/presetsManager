@@ -1,10 +1,8 @@
 package tui
 
 import (
-	"fmt"
+	"github.com/gdamore/tcell/v2"
 	"github.com/rivo/tview"
-	"log"
-	"presetsManager/themes"
 	"strings"
 )
 
@@ -21,39 +19,30 @@ func updateSelectedTheme(list *tview.List, currentTheme string) {
 	}
 }
 
-func StartThemes() error {
-	app := tview.NewApplication()
-	list := tview.NewList()
+var bgColor = tcell.NewHexColor(0x06070d)
 
-	themeList, err := themes.GetThemes()
+func Start() error {
+	app := tview.NewApplication()
+	pages := tview.NewPages()
+	tview.Styles.PrimitiveBackgroundColor = bgColor
+	pages.Box.SetBackgroundColor(bgColor)
+
+	mainPage, err := CreateMainpage(app, pages)
 	if err != nil {
-		log.Println("Ошибка получения списка тем:", err)
+		return err
+	}
+	themesPage, err := CreateThemesPage(app, pages)
+	if err != nil {
+		return err
+	}
+	presetsPage, err := CreatePresetsPage()
+	if err != nil {
 		return err
 	}
 
-	currentTheme, err := themes.GetCurrentTheme()
-	if err != nil {
-		currentTheme = "unknown"
-	}
+	pages.AddPage("main", mainPage, true, true)
+	pages.AddPage("themes", themesPage, true, false)
+	pages.AddPage("presets", presetsPage, true, false)
 
-	for _, theme := range themeList {
-		t := theme
-		displayName := t
-		if t == currentTheme {
-			displayName = fmt.Sprintf("[*] %s", t)
-		}
-		list.AddItem(displayName, "", 0, func() {
-			err := themes.SetTheme(t)
-			if err == nil {
-				updateSelectedTheme(list, t)
-			}
-		})
-	}
-
-	list.SetBorder(true).SetTitle("Выбор темы").SetTitleAlign(tview.AlignLeft)
-	list.SetDoneFunc(func() {
-		app.Stop()
-	})
-
-	return app.SetRoot(list, true).Run()
+	return app.SetRoot(pages, true).SetFocus(pages).Run()
 }

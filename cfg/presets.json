@@ -1,0 +1,36 @@
+{
+  "presets": [
+    {
+      "name": "Рабочий",
+      "selected": false,
+      "params": {
+        "theme_name": "Catppuccin Latte",
+        "playlist_name": "Work Beats"
+      }
+    },
+    {
+      "name": "Игровой",
+      "selected": false,
+      "params": {
+        "theme_name": "Catppuccin Mocha",
+        "playlist_name": "Game Mode"
+      }
+    },
+    {
+      "name": "Игровой 2",
+      "selected": true,
+      "params": {
+        "theme_name": "Catppuccin Mocha",
+        "playlist_name": "Game Mode"
+      }
+    },
+    {
+      "name": "Игровой 3",
+      "selected": false,
+      "params": {
+        "theme_name": "Catppuccin Mocha",
+        "playlist_name": "Game Mode"
+      }
+    }
+  ]
+}
